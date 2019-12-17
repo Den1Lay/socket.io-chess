@@ -24,6 +24,10 @@ let game = []
 io.on('connection', function(socket){
   console.log(`New server connect: ${socket.id}`)
   socket.emit('HANDSHAKE', {socket: socket.id})
+  socket.on('TEST:USER', ({user, payload}) => {
+    console.log('its happened', user)
+    socket.to(user).emit('TEST:RES', {payload})
+  })
   socket.on('GAME:FINDING', () => {
     if (game.length === 0) {
       game.push(socket.id)
